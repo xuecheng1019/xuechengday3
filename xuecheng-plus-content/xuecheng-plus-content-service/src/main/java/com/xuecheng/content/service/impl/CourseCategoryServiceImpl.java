@@ -26,6 +26,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class CourseCategoryServiceImpl implements CourseCategoryService {
 
+//    @Autowired
+//    CourseCategoryMapper courseCategoryMapper;
     @Autowired
     CourseCategoryMapper courseCategoryMapper;
 
