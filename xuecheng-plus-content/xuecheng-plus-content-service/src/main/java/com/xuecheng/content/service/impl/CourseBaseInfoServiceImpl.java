@@ -80,22 +80,6 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
 //        if (StringUtils.isBlank(dto.getSt())) {
 //            throw new RuntimeException("课程分类为空");
 //        }
-//
-//        if (StringUtils.isBlank(dto.getGrade())) {
-//            throw new RuntimeException("课程等级为空");
-//        }
-//
-//        if (StringUtils.isBlank(dto.getTeachmode())) {
-//            throw new RuntimeException("教育模式为空");
-//        }
-//
-//        if (StringUtils.isBlank(dto.getUsers())) {
-//            throw new RuntimeException("适应人群为空");
-//        }
-//
-//        if (StringUtils.isBlank(dto.getCharge())) {
-//            throw new RuntimeException("收费规则为空");
-//        }
 
         //向课程表加信息
         CourseBase courseBaseNew = new CourseBase();

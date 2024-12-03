@@ -18,4 +18,23 @@
         id, course_id, teacher_name, position, introduction, photograph, create_date
     </sql>
 
+    <!-- ResultMap 手动映射-->
+    <resultMap id="courseTeacherMap" type="com.xuecheng.content.model.po.CourseTeacher">
+        <!-- 一级中包含多个二级数据, 所以用一对多映射，用collection-->
+        <id     column="id"        property="id" />
+        <result column="course_Id"      property="courseId" />
+        <result column="teacher_Name"     property="teacherName" />
+        <result column="position"  property="position" />
+        <result column="introduction"   property="introduction" />
+        <result column="photograph"   property="photograph" />
+        <result column="createDate"   property="createDate" />
+    </resultMap>
+
+    <select id="selectByCourseId" parameterType="Long" resultMap="courseTeacherMap">
+        select * from course_teacher where course_id = #{courseId}
+    </select>
+
+
+
+
 </mapper>
