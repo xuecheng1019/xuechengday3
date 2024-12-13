@@ -10,6 +10,7 @@ import com.xuecheng.media.model.po.MediaFiles;
 import io.minio.errors.*;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.io.File;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -88,6 +89,22 @@ public interface MediaFileService {
      */
     public RestResponse mergechunks(Long companyId,String fileMd5,int chunkTotal,UploadFileParamsDto uploadFileParamsDto);
 
+    /**
+     * 从minio下载文件到服务器
+     * @param bucket
+     * @param objectName
+     * @return
+     */
+    public File downloadFileFromMinIO(String bucket, String objectName);
 
+    /**
+     * 将文件都上传到minio
+     * @param localFilePath
+     * @param mimeType
+     * @param bucket
+     * @param objectName
+     * @return
+     */
+    public boolean addMediaFilesToMinIO(String localFilePath, String mimeType, String bucket, String objectName);
 
 }

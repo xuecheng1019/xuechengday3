@@ -57,7 +57,7 @@ public class Mp4VideoUtil extends VideoUtil {
         commend.add("-r");
         commend.add("18");
 //        commend.add(mp4folder_path  + mp4_name );
-        commend.add(mp4folder_path  );
+        commend.add(mp4folder_path);
         String outstring = null;
         try {
             ProcessBuilder builder = new ProcessBuilder();

@@ -16,6 +16,11 @@ spring:
         - data-id: logging-${spring.profiles.active}.yaml
           group: xuecheng-plus-common
           refresh: true
+  servlet:
+    multipart:
+      #单个文件最大内存  单个请求最大内存
+      max-file-size: 10MB
+      max-request-size: 300MB
 
 #profiles默认为dev
   profiles:
