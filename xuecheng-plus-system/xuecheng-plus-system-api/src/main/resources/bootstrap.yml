@@ -11,15 +11,15 @@ spring:
       server-addr: 192.168.101.65:8848
       discovery:
         namespace: dev_yfr
-        group: xuecheng_repository_1022-day6
+        group: xuecheng-plus-project
       config: #配置文件相关信息
         namespace: dev_yfr
-        group: xuecheng_repository_1022-day6
+        group: xuecheng-plus-project
         file-extension: yaml
         refresh-enabled: true
         extension-configs:
           - data-id: system-service-${spring.profiles.active}.yaml
-            group: xuecheng_repository_1022-day6
+            group: xuecheng-plus-project
             refresh: true
         shared-configs:
           - data-id: swagger-${spring.profiles.active}.yaml
