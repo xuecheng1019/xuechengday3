@@ -24,6 +24,13 @@ import java.util.List;
 public interface MediaFileService {
 
     /**
+     * 根据媒资ID查询媒资
+     * @param mediaId
+     * @return
+     */
+    MediaFiles getFileById(String mediaId);
+
+    /**
      * @param pageParams          分页参数
      * @param queryMediaParamsDto 查询条件
      * @return com.xuecheng.base.model.PageResult<com.xuecheng.media.model.po.MediaFiles>

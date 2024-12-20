@@ -98,6 +98,7 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
         CourseMarket courseMarketNew = new CourseMarket();
         BeanUtils.copyProperties(dto, courseMarketNew);
         courseMarketNew.setId(courseBaseNew.getId());
+
         //保存营销信息
         saveCourseMarket(courseMarketNew);
         //查询详细信息
@@ -133,6 +134,7 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
     }
 
     //根据Id查询详细课程信息
+    @Override
     public CourseBaseInfoDto selectCourseBaseInfo(Long courseId){
         //查询课程信息
         CourseBase courseBase = courseBaseMapper.selectById(courseId);
@@ -142,21 +144,20 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
         //查询课程营销信息
         CourseMarket courseMarket = courseMarketMapper.selectById(courseId);
         //查询课程分类名字
-//        CourseCategory courseCategory = courseCategoryMapper.selectById(courseBase.getSt());
-//        String categoryName = courseCategory.getName();
-//
-//        String parentid = courseCategory.getParentid();
-//        CourseCategory courseCategoryParent = courseCategoryMapper.selectById(parentid);
-//        String parentName = courseCategoryParent.getName();
+        CourseCategory mtObj = courseCategoryMapper.selectById(courseBase.getMt());
+        String mtName = mtObj.getName();//大分类
+        CourseCategory stObj = courseCategoryMapper.selectById(courseBase.getSt());
+        String stName = stObj.getName();//小分类
+
         //组装
         CourseBaseInfoDto courseBaseInfoDto = new CourseBaseInfoDto();
         BeanUtils.copyProperties(courseBase, courseBaseInfoDto);
         if(courseMarket != null){
             BeanUtils.copyProperties(courseMarket, courseBaseInfoDto);
         }
+        courseBaseInfoDto.setMtName(mtName);
+        courseBaseInfoDto.setStName(stName);
 
-//        courseBaseInfoDto.setStName(categoryName);
-//        courseBaseInfoDto.setMtName(parentName);
         return courseBaseInfoDto;
     }
 
