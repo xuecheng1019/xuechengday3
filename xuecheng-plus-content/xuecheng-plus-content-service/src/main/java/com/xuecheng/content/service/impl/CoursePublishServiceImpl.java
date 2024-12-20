@@ -1,6 +1,7 @@
 package com.xuecheng.content.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.xuecheng.base.exeception.CommonError;
 import com.xuecheng.base.exeception.XueChengPlusException;
 import com.xuecheng.content.mapper.CourseBaseMapper;
 import com.xuecheng.content.mapper.CourseMarketMapper;
@@ -16,6 +17,8 @@ import com.xuecheng.content.model.po.CoursePublishPre;
 import com.xuecheng.content.service.CourseBaseInfoService;
 import com.xuecheng.content.service.CoursePublishService;
 import com.xuecheng.content.service.TeachplanService;
+import com.xuecheng.messagesdk.model.po.MqMessage;
+import com.xuecheng.messagesdk.service.MqMessageService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +43,8 @@ public class CoursePublishServiceImpl implements CoursePublishService {
     CoursePublishPreMapper coursePublishPreMapper;
     @Autowired
     CoursePublishMapper coursePublishMapper;
-
+    @Autowired
+    MqMessageService mqMessageService;
 
 
     @Override
@@ -147,7 +151,7 @@ public class CoursePublishServiceImpl implements CoursePublishService {
         //保存课程发布信息
         saveCoursePublish(courseId);
         //保存消息表
-//        saveCoursePublishMessage(courseId);
+        saveCoursePublishMessage(courseId);
 
         //删除课程预发布表对应记录
         coursePublishPreMapper.deleteById(courseId);
@@ -193,7 +197,10 @@ public class CoursePublishServiceImpl implements CoursePublishService {
      * @date 2022/9/20 16:32
      */
     private void saveCoursePublishMessage(Long courseId){
-
+        MqMessage mqMessage = mqMessageService.addMessage("course_publish", String.valueOf(courseId), null, null);
+        if(mqMessage==null){
+            XueChengPlusException.cast(CommonError.UNKOWN_ERROR);
+        }
 
     }
 
