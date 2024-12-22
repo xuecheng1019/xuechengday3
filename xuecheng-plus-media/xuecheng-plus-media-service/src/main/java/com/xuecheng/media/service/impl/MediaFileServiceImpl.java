@@ -212,7 +212,7 @@ public class MediaFileServiceImpl implements MediaFileService {
 
 
     @Override
-    public UploadFileResultDto uploadFile(Long companyId, UploadFileParamsDto uploadFileParamsDto, String localFilePath){
+    public UploadFileResultDto uploadFile(Long companyId, UploadFileParamsDto uploadFileParamsDto, String localFilePath, String objectName){
         File file = new File(localFilePath);
         if (!file.exists()) {
             XueChengPlusException.cast("文件不存在");
@@ -225,7 +225,11 @@ public class MediaFileServiceImpl implements MediaFileService {
 
         String defaultFolderPath = getDefaultFolderPath();
         String fileMd5 = getFileMd5(new File(localFilePath));
-        String objectName = defaultFolderPath + fileMd5 + extension;
+        //存储到minio中的对象名(带目录)
+        if(StringUtils.isEmpty(objectName)){
+            objectName =  defaultFolderPath + fileMd5 + extension;
+        }
+//        String objectName = defaultFolderPath + fileMd5 + extension;
         boolean sucess = addMediaFilesToMinIO(localFilePath, mimeType, bucket_mediafiles, objectName);
         if(!sucess){
             XueChengPlusException.cast("上传文件失败");
