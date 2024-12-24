@@ -19,7 +19,7 @@ public class FeignUploadTest {
     @Test
     public void test() {
         MultipartFile multipartFile = MultipartSupportConfig.getMultipartFile(new File("E:\\Java\\upload\\test.html"));
-        mediaServiceClient.uploadFile(multipartFile,"/test.html");
+        mediaServiceClient.uploadFile(multipartFile,"/course/test.html");
     }
 }
 
