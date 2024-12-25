@@ -1,13 +1,16 @@
 package com.xuecheng.content.service.jobhandler;
 
+import com.xuecheng.content.service.CoursePublishService;
 import com.xuecheng.messagesdk.model.po.MqMessage;
 import com.xuecheng.messagesdk.service.MessageProcessAbstract;
 import com.xuecheng.messagesdk.service.MqMessageService;
 import com.xxl.job.core.context.XxlJobHelper;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -17,13 +20,16 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class CoursePublishTask extends MessageProcessAbstract {
 
+    @Autowired
+    CoursePublishService coursePublishService;
+
     //任务调度入口
     @XxlJob("CoursePublishJobHandler")
     public void coursePublishJobHandler() throws Exception {
         // 分片参数
         int shardIndex = XxlJobHelper.getShardIndex();
         int shardTotal = XxlJobHelper.getShardTotal();
-        log.debug("shardIndex="+shardIndex+",shardTotal="+shardTotal);
+        log.debug("分片序号="+shardIndex+",分片总数="+shardTotal);
         //参数:分片序号、分片总数、消息类型、一次最多取到的任务数量、一次任务调度执行的超时时间
         process(shardIndex,shardTotal,"course_publish",30,60);
     }
@@ -58,13 +64,22 @@ public class CoursePublishTask extends MessageProcessAbstract {
             log.debug("课程静态化已处理直接返回，课程id:{}",courseId);
             return ;
         }
-        try {
-            TimeUnit.SECONDS.sleep(10);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        //生成静态化页面
+        File file = coursePublishService.generateCourseHtml(courseId);
+        //上传静态化页面
+        if(file!=null){
+            coursePublishService.uploadCourseHtml(courseId,file);
         }
-        //第一阶段任务完成，保存第一阶段状态为1
+        //保存第一阶段状态
         mqMessageService.completedStageOne(id);
+//
+//        try {
+//            TimeUnit.SECONDS.sleep(10);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
+//        //第一阶段任务完成，保存第一阶段状态为1
+//        mqMessageService.completedStageOne(id);
 
     }
 

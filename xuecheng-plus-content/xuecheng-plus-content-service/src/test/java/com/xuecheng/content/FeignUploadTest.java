@@ -19,7 +19,10 @@ public class FeignUploadTest {
     @Test
     public void test() {
         MultipartFile multipartFile = MultipartSupportConfig.getMultipartFile(new File("E:\\Java\\upload\\test.html"));
-        mediaServiceClient.uploadFile(multipartFile,"/course/test.html");
+        String s = mediaServiceClient.uploadFile(multipartFile, "/course/test.html");
+        if(s == null){
+            System.out.println("走降级逻辑");
+        }
     }
 }
 
