@@ -1,0 +1,10 @@
+
+### 添加课程索引
+GET http://localhost:63080/search/course/list?pageNo=1&keywords=spring
+Content-Type: application/json
+
+### 添加课程索引
+POST http://localhost:63080/index/course
+Content-Type: application/json
+
+
